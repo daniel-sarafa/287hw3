@@ -1,3 +1,6 @@
-﻿  Lab.cpp
-  CSE287Lab.vcxproj -> C:\Users\sarafadj\Desktop\CSE287LabFourSarafadj\Debug\CSE287Lab.exe
-  CSE287Lab.vcxproj -> C:\Users\sarafadj\Desktop\CSE287LabFourSarafadj\Debug\CSE287Lab.pdb (Full PDB)
+﻿  RayTracer.cpp
+c:\users\sarafadj\desktop\287hw3\cse287lab\raytracer.cpp(5): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\sarafadj\desktop\287hw3\cse287lab\raytracer.cpp(85): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\sarafadj\desktop\287hw3\cse287lab\raytracer.cpp(91): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+  CSE287Lab.vcxproj -> C:\Users\sarafadj\Desktop\287hw3\Debug\CSE287Lab.exe
+  CSE287Lab.vcxproj -> C:\Users\sarafadj\Desktop\287hw3\Debug\CSE287Lab.pdb (Full PDB)

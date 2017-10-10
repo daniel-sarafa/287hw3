@@ -1,7 +1,8 @@
 #include "RayTracer.h"
+#define EPSILON 1.0E-4f
 
-RayTracer::RayTracer(FrameBuffer & cBuffer, color defaultColor)
-	:colorBuffer(cBuffer), defaultColor(defaultColor), recursionDepth(2) {
+RayTracer::RayTracer(FrameBuffer & cBuffer, int alias, color defaultColor)
+	:colorBuffer(cBuffer), defaultColor(defaultColor), recursionDepth(2), alias(alias) {
 
 }
 
@@ -85,9 +86,9 @@ void RayTracer::raytraceScene(const std::vector<std::shared_ptr<Surface>> & surf
 	for (int x = 0; x < colorBuffer.getWindowWidth(); x++) {
 		for (int y = 0; y < colorBuffer.getWindowHeight(); y++) {
 			color total(0, 0, 0, 0);
-			for (int i = 0; i < alias; i++) {
-				for (int j = 0; j < alias; j++) {
-					setPerspectiveRayOriginAndDirection(x+i, y+j);
+			for (float i = 0; i < alias; i++) {
+				for (float j = 0; j < alias; j++) {
+					setPerspectiveRayOriginAndDirection(x+(i/2), y+(j/2));
 					color C = traceIndividualRay(rayOrigin, rayDirection, 1);
 					total += C;
 				}
@@ -107,13 +108,22 @@ color RayTracer::traceIndividualRay(const glm::vec3 &e, const glm::vec3 &d, int 
 	// TODO
 	float distance = FLT_MAX;
 	color result = defaultColor;
+	color shadow(0, 0, 0, 1);
+	PositionalLight light(glm::vec3(-10, 4, 0), color(1, 1, 1, 1));
 	for (unsigned int i = 0; i < surfacesInScene.size(); i++) {
 		HitRecord hit = surfacesInScene[i]->findClosestIntersection(e, d);
+		glm::vec3 lightDir(light.lightPosition - hit.interceptPoint);
+		glm::vec3 acne(hit.interceptPoint.x, hit.interceptPoint.y, hit.interceptPoint.z);
+		HitRecord shadow = findIntersection(acne, lightDir, surfacesInScene);
+		if (shadow.t != FLT_MAX && shadow.t < distance && shadow.t > EPSILON) {
+			hit.material = color(0, 0, 0, 1);
+		}
 		if (hit.t != FLT_MAX && hit.t < distance) {
 			distance = hit.t;
 			result = hit.material;
 		}
+		
 	}
-	return result;
 
+	return result;
 } // end traceRay

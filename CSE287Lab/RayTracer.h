@@ -18,7 +18,7 @@ public:
 	* @param default color to which pixel will be set when there it no intersection
 	* for a ray associated with a particular pixel.
 	*/
-	RayTracer(FrameBuffer & cBuffer, color defaultColor = color(0.0, 0.0, 0.0, 1.0));
+	RayTracer(FrameBuffer & cBuffer, int alias, color defaultColor = color(0.0, 0.0, 0.0, 1.0));
 
 	~RayTracer(void);
 
@@ -66,7 +66,7 @@ public:
 	void setDefaultColor(color default) { this->defaultColor = default; };
 
 	int recursionDepth;
-
+	float alias;
 protected:
 
 	/**
@@ -154,7 +154,7 @@ protected:
 	// Parametric ray being traced for a pixel
 	glm::vec3 rayDirection; // Direction of the ray
 	glm::vec3 rayOrigin; // Origin of the ray
-	float alias;
+
 	// List of the surfaces in the scene that is being ray traced
 	std::vector<std::shared_ptr<Surface>> surfacesInScene;
 

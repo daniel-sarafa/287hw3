@@ -11,7 +11,7 @@
 FrameBuffer frameBuffer(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 // Ray tracer that generates the rendered image
-RayTracer rayTrace(frameBuffer);
+RayTracer rayTrace(frameBuffer, 1);
 
 // Surfaces or object in the scene to be rendered
 std::vector<std::shared_ptr<Surface>> surfaces;
@@ -27,12 +27,10 @@ std::vector<std::shared_ptr<LightSource>> lights;
 static void RenderSceneCB() {
 	// Get time before rendering the scene
 	int frameStartTime = glutGet(GLUT_ELAPSED_TIME);
-
 	// Clear the color buffer
 //	frameBuffer.clearColorAndDepthBuffers(); // Not necessary for ray tracing
-
 	// Ray trace the scene to determine the color of all the pixels in the scene
-	rayTrace.raytraceScene(surfaces, lights, 1);
+	rayTrace.raytraceScene(surfaces, lights, rayTrace.alias);
 
 	// Display the color buffer
 	frameBuffer.showColorBuffer();
@@ -71,6 +69,18 @@ static void KeyboardCB(unsigned char key, int x, int y) {
 		break;
 	case(27): // Escape key
 		glutLeaveMainLoop();
+		break;
+	case('1'):
+		rayTrace.alias = 1;
+		RenderSceneCB();
+		break;
+	case('2'):
+		rayTrace.alias = 2;
+		RenderSceneCB();
+		break;
+	case('3'):
+		rayTrace.alias = 3;
+		RenderSceneCB();
 		break;
 	default:
 		std::cout << key << " key pressed." << std::endl;
